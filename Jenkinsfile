@@ -23,5 +23,12 @@ pipeline {
                  }
             }
         }
+        stage ('Docker Image') {
+        	steps {
+        		checkout scm
+    			docker.withRegistry('https://hub.docker.com/repository/docker/upadhuma/simple-project', 'dockerhubCreds') {
+        		def customImage = docker.build("umang-u2/dockerwebapp")
+        		customImage.push()
+        }
     }
 }
