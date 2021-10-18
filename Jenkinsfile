@@ -13,6 +13,11 @@ pipeline {
                 '''
             }
         }
+        stage ('SCM Checkout'){
+        	steps {
+        	git credentialsId: 'gitCredentials', url: 'https://github.com/Umang-u2/SimpleSpringBootApp.git'
+        	}
+        }
         stage ('Build') {
             steps {
                 sh 'mvn clean package'
@@ -23,12 +28,10 @@ pipeline {
                         }
                  }
             }
-            node {
-        		checkout scm
-    			docker.withRegistry('https://hub.docker.com/repository/docker/upadhuma/simple-project', 'dockerhubCreds') {
-        		def customImage = docker.build("umang-u2/dockerwebapp")
-        		customImage.push()
-        			}
-        		}
+       stage ('Build Docker Image'){
+			steps {
+				sh 'docker build -t upadhuma/simple-project'
+			}       		
+       }
     }
 }
