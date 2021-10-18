@@ -23,7 +23,6 @@ pipeline {
                         }
                  }
             }
-        }
         stage ('Docker Image') {
         	steps {
         		checkout scm
