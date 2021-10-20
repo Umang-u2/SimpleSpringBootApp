@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { dockerfile true }
     tools {
         maven 'maven-3.5.0'
     }
@@ -19,13 +19,6 @@ pipeline {
         	}
         }
         stage ('Build') {
-        	agent {
-                   dockerfile {
-                   filename 'Dockerfile'  
-                   label 'VM-Linux-Agent'
-                   args "-v /home/user/maven:/var/maven" 
-               }
-            } 
             steps {
                 sh 'mvn clean package'
             }
